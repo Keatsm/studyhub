@@ -3,6 +3,7 @@ package backend.studyhub.data;
 import java.util.HashMap;
 
 import backend.studyhub.entities.User;
+import backend.studyhub.entities.Workspace;
 
 public class MemoryDataStore implements DataStore {
     private static HashMap<Long, User> idToUsers = new HashMap<>();
@@ -47,6 +48,28 @@ public class MemoryDataStore implements DataStore {
         // In memory so we don't need to do anything      
     }
 
-    
-    
+    private static HashMap<Long, Workspace> idToWorkspaces = new HashMap<>();
+
+    @Override
+    public Workspace createWorkspace(String name, String description, User owner) {
+        Workspace workspace = new Workspace(name, owner);
+        idToWorkspaces.put(workspace.getId(), workspace);
+        return workspace;
+    }
+
+    @Override
+    public Workspace getWorkspace(long id) {
+        return idToWorkspaces.get(id);
+    }
+
+    @Override
+    public void updateWorkspace(Workspace workspace) {
+        // In memory so we don't need to do anything
+    }
+
+    @Override
+    public void deleteWorkspace(long id) {
+        idToWorkspaces.remove(id);
+    }
+
 }

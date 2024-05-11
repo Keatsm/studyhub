@@ -40,7 +40,6 @@ public class Workspace extends Entity {
 
     public void addAdmin(User user) {
         admins.add(user);
-        user.addAdminWorkspace(this);
     }
 
     public void removeUser(User user) {
@@ -53,6 +52,27 @@ public class Workspace extends Entity {
 
     public void removeAdmin(User user) {
         admins.remove(user);
-        user.removeAdminWorkspace(this);
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+
+    public Item findItem(long id) {
+        for (Item item : items) {
+            Item found = item.findItem(id);
+            if (found != null) {
+                return found;
+            }
+        }
+        return null;
     }
 }

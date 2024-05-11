@@ -22,8 +22,28 @@ public class Folder extends Item {
         items.add(item);
     }
 
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+
     @Override
     public String getType() {
         return "folder";
     }
+
+    @Override
+    public Item findItem(long id) {
+        if (super.findItem(id) != null) {
+            return this;
+        }
+        for (Item item : items) {
+            Item found = item.findItem(id);
+            if (found != null) {
+                return found;
+            }
+        }
+        return null;
+    }
+
+    
 }

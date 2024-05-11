@@ -12,4 +12,11 @@ public abstract class Item extends Entity {
     }
 
     public abstract String getType();
+
+    public Item findItem(long id) {
+        if (this.getId() == id) {
+            return this;
+        }
+        return null;
+    }
 }
