@@ -8,6 +8,15 @@ public class MemoryDataStore implements DataStore {
     private static HashMap<Long, User> idToUsers = new HashMap<>();
     private static HashMap<String, User> emailToUsers = new HashMap<>();
 
+    private long id = 0;
+
+    @Override
+    public long getId() {
+        long oldId = this.id;
+        this.id++;
+        return oldId;
+    }
+
     @Override
     public User createUser(String name, String email, String password) {
         User user = new User(name, email, password);
@@ -38,12 +47,6 @@ public class MemoryDataStore implements DataStore {
         // In memory so we don't need to do anything      
     }
 
-    private long id = 0;
-
-    public long getId() {
-        long oldId = this.id;
-        this.id++;
-        return oldId;
-    }
+    
     
 }

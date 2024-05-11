@@ -15,14 +15,14 @@ public class Workspace extends Entity {
 
     public Workspace(String name, User creator) {
         super(name);
-        users.add(creator);
-        admins.add(creator);
+        addAdmin(creator);
+        addUser(creator);
     }
 
     public Workspace(long id, String name, User creator) {
         super(id, name);
-        users.add(creator);
-        admins.add(creator);
+        addAdmin(creator);
+        addUser(creator);
     }
 
     public Set<User> getUsers() {
@@ -35,17 +35,24 @@ public class Workspace extends Entity {
 
     public void addUser(User user) {
         users.add(user);
+        user.addWorkspace(this);
     }
 
     public void addAdmin(User user) {
         admins.add(user);
+        user.addAdminWorkspace(this);
     }
 
     public void removeUser(User user) {
+        if (admins.contains(user)) {
+            removeAdmin(user);
+        }
         users.remove(user);
+        user.removeWorkspace(this);
     }
 
     public void removeAdmin(User user) {
         admins.remove(user);
+        user.removeAdminWorkspace(this);
     }
 }

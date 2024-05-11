@@ -11,6 +11,7 @@ public abstract class Entity {
         this.name = name;
     }
 
+    // Constructor for persistent data
     public Entity(long id, String name) {
         this.id = id;
         this.name = name;
