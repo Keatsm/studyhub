@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.studyhub.entities.items.Folder;
+import backend.studyhub.entities.items.Link;
+import backend.studyhub.entities.items.Note;
+
 @SpringBootApplication
 @RestController
 public class StudyhubApplication {
@@ -14,9 +18,12 @@ public class StudyhubApplication {
 		SpringApplication.run(StudyhubApplication.class, args);
 	}
 
-	@GetMapping("/hello")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-      return String.format("Hello %s!", name);
+	@GetMapping("/test")
+    public Folder hello() {
+      Folder folder = new Folder("test");
+	  folder.addItem(new Note("test", "hello"));
+	  folder.addItem(new Link("exam notes", "https://www.google.com/"));
+	  return folder;
     }
 
 }
