@@ -10,6 +10,8 @@ public interface DataStore {
 
     public long getId();
 
+    public boolean emailExists(String email);
+
     public User createUser(String name, String email, String password);
 
     public User getUser(long id);

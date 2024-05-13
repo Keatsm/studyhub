@@ -1,5 +1,6 @@
 package backend.studyhub;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
@@ -44,8 +45,10 @@ public class StudyhubApplication {
 	}
 
 	@PostMapping("/user/register")
-	public long postMethodName(@RequestBody Map<String, String> user) {	
-		return UserService.userRegister(user.get("name"), user.get("email"), user.get("password"));
+	public Map<String, String> postMethodName(@RequestBody Map<String, String> user) {
+		Map<String, String> res = new HashMap<>();
+		res.put("token", UserService.userRegister(user.get("name"), user.get("email"), user.get("password")));	
+		return res;
 	}
 	
 	@GetMapping("/user")

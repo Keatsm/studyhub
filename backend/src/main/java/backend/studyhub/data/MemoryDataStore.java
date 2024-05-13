@@ -72,4 +72,9 @@ public class MemoryDataStore implements DataStore {
         idToWorkspaces.remove(id);
     }
 
+    @Override
+    public boolean emailExists(String email) {
+        return emailToUsers.containsKey(email);
+    }
+
 }
