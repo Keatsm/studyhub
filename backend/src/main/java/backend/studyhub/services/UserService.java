@@ -49,4 +49,23 @@ public class UserService {
         return generateToken(userId);
     }
 
+    static public String userLogin(String email, String password) throws UnauthorizedException {
+        DataStore dataStore = DataAccess.getInstance().getDataStore();
+        if (!dataStore.emailExists(email)) {
+            throw new UnauthorizedException("Invalid email");
+        }
+        long userId = dataStore.getUser(email).getId();
+        if (!dataStore.getUser(userId).testPassword(password)) {
+            throw new UnauthorizedException("Invalid password");
+        }
+        return generateToken(userId);
+    }
+
+    static public void userLogout(String token) throws UnauthorizedException {
+        if (!tokenToUserId.containsKey(token)) {
+            throw new UnauthorizedException("Invalid token");
+        }
+        tokenToUserId.remove(token);
+    }
+
 }

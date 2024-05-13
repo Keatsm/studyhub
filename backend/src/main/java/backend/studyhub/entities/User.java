@@ -27,7 +27,7 @@ public class User extends Entity {
     }
 
     public boolean testPassword(String candidatePassword) {
-        return candidatePassword == password;
+        return candidatePassword.equals(password);
     }
 
     public void setPassword(String password) {

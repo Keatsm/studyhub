@@ -19,6 +19,7 @@ import backend.studyhub.services.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 @SpringBootApplication
@@ -45,12 +46,25 @@ public class StudyhubApplication {
 	}
 
 	@PostMapping("/user/register")
-	public Map<String, String> postMethodName(@RequestBody Map<String, String> user) {
+	public Map<String, String> userRegister(@RequestBody Map<String, String> req) {
 		Map<String, String> res = new HashMap<>();
-		res.put("token", UserService.userRegister(user.get("name"), user.get("email"), user.get("password")));	
+		res.put("token", UserService.userRegister(req.get("name"), req.get("email"), req.get("password")));	
 		return res;
 	}
-	
+
+	@PostMapping("/user/login")
+	public Map<String, String> userLogin(@RequestBody Map<String, String> req) {
+		Map<String, String> res = new HashMap<>();
+		res.put("token", UserService.userLogin(req.get("email"), req.get("password")));	
+		return res;
+	}
+
+	@PostMapping("/user/logout")
+	public void userLogout(@RequestHeader(name = "token") String token) {
+		UserService.userLogout(token);   
+	}
+
+
 	@GetMapping("/user")
 	public User getMethodName(@RequestParam long id) {
 		return DataAccess.getInstance().getDataStore().getUser(id);
