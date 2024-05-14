@@ -9,22 +9,25 @@ import backend.studyhub.entities.items.Item;
 
 public class Workspace extends Entity {
 
-    Set<User> users = new HashSet<User>();
-    Set<User> admins = new HashSet<User>();
-    List<Item> items = new ArrayList<Item>();
+    private Set<User> users = new HashSet<User>();
+    private Set<User> admins = new HashSet<User>();
+    private List<Item> items = new ArrayList<Item>();
 
-    public Workspace(String name, User creator) {
+    private String description;
+
+    public Workspace(String name, String description, User creator) {
         super(name);
         addAdmin(creator);
         addUser(creator);
+        this.description = description;
     }
 
-    public Workspace(long id, String name, User creator) {
+    public Workspace(long id, String name, String description, User creator) {
         super(id, name);
         addAdmin(creator);
         addUser(creator);
+        this.description = description;
     }
-
     public Set<User> getUsers() {
         return users;
     }
@@ -74,5 +77,13 @@ public class Workspace extends Entity {
             }
         }
         return null;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

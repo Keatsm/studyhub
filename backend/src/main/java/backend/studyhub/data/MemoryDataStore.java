@@ -52,7 +52,7 @@ public class MemoryDataStore implements DataStore {
 
     @Override
     public Workspace createWorkspace(String name, String description, User owner) {
-        Workspace workspace = new Workspace(name, owner);
+        Workspace workspace = new Workspace(name, description, owner);
         idToWorkspaces.put(workspace.getId(), workspace);
         return workspace;
     }

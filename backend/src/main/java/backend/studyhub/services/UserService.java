@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import backend.studyhub.data.DataAccess;
 import backend.studyhub.data.DataStore;
+import backend.studyhub.entities.User;
 import backend.studyhub.exceptions.HttpBadRequestException;
 import backend.studyhub.exceptions.UnauthorizedException;
 
@@ -66,6 +67,11 @@ public class UserService {
             throw new UnauthorizedException("Invalid token");
         }
         tokenToUserId.remove(token);
+    }
+
+    static public User getUser(long id) {
+        DataStore dataStore = DataAccess.getInstance().getDataStore();
+        return dataStore.getUser(id);
     }
 
 }
