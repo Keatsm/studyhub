@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.studyhub.entities.User;
+import backend.studyhub.entities.Workspace;
 import backend.studyhub.entities.items.Folder;
 import backend.studyhub.entities.items.Link;
 import backend.studyhub.entities.items.Note;
@@ -63,6 +64,17 @@ public class StudyhubApplication {
 		UserService.userLogout(token);   
 	}
 
+	@GetMapping("/user")
+	public User getUser(@RequestHeader(name = "token") String token, @RequestParam(value = "userId") long userId) {
+		UserService.getUserIdFromToken(token);
+		return UserService.getUser(userId);
+	}
+
+	@GetMapping("/workspace")
+	public Workspace getWorkspace(@RequestHeader(name = "token") String token, @RequestParam(value = "workspaceId") long workspaceId) {
+		return WorkspaceService.getWorkspace(UserService.getUserIdFromToken(token), workspaceId);
+	}
+
 	@PostMapping("/workspace")
 	public Map<String, Long> createWorkspace(@RequestHeader(name = "token") String token, @RequestBody Map<String, String> req) {
 		Map<String, Long> res = new HashMap<>();
@@ -99,6 +111,51 @@ public class StudyhubApplication {
 	public void removeAdmin(@RequestHeader(name = "token") String token, @RequestParam(value = "workspaceId") long workspaceId, @RequestParam(value = "userId") long userId) {
 		WorkspaceService.removeAdmin(UserService.getUserIdFromToken(token), workspaceId, userId);
 	}
-	
+
+	@PostMapping("/workspace/item/folder")
+	public Map<String, Long> createFolder(@RequestHeader(name = "token") String token, @RequestBody Map<String, String> req) {
+		Map<String, Long> res = new HashMap<>();
+		res.put("itemId", WorkspaceService.newFolder(UserService.getUserIdFromToken(token), Long.parseLong(req.get("workspaceId")), Long.parseLong(req.get("folderId")), req.get("name")));
+		return res;
+	}
+
+	@PutMapping("/workspace/item/folder")
+	public void updateFolder(@RequestHeader(name = "token") String token, @RequestBody Map<String, String> req) {
+		WorkspaceService.updateFolder(UserService.getUserIdFromToken(token), Long.parseLong(req.get("workspaceId")), Long.parseLong(req.get("itemId")), req.get("name"));
+	}
+
+	@PostMapping("/workspace/item/note")
+	public Map<String, Long> createNote(@RequestHeader(name = "token") String token, @RequestBody Map<String, String> req) {
+		Map<String, Long> res = new HashMap<>();
+		res.put("itemId", WorkspaceService.newNote(UserService.getUserIdFromToken(token), Long.parseLong(req.get("workspaceId")), Long.parseLong(req.get("folderId")), req.get("name"), req.get("content")));
+		return res;
+	}
+
+	@PutMapping("/workspace/item/note")
+	public void updateNote(@RequestHeader(name = "token") String token, @RequestBody Map<String, String> req) {
+		WorkspaceService.updateNote(UserService.getUserIdFromToken(token), Long.parseLong(req.get("workspaceId")), Long.parseLong(req.get("itemId")), req.get("name"), req.get("content"));
+	}
+
+	@PostMapping("/workspace/item/link")
+	public Map<String, Long> createLink(@RequestHeader(name = "token") String token, @RequestBody Map<String, String> req) {
+		Map<String, Long> res = new HashMap<>();
+		res.put("itemId", WorkspaceService.newLink(UserService.getUserIdFromToken(token), Long.parseLong(req.get("workspaceId")), Long.parseLong(req.get("folderId")), req.get("name"), req.get("url")));
+		return res;
+	}
+
+	@PutMapping("/workspace/item/link")
+	public void updateLink(@RequestHeader(name = "token") String token, @RequestBody Map<String, String> req) {
+		WorkspaceService.updateLink(UserService.getUserIdFromToken(token), Long.parseLong(req.get("workspaceId")), Long.parseLong(req.get("itemId")), req.get("name"), req.get("url"));
+	}
+
+	@DeleteMapping("/workspace/item")
+	public void deleteItem(@RequestHeader(name = "token") String token, @RequestParam(value = "workspaceId") long workspaceId, @RequestParam(value = "itemId") long itemId) {
+		WorkspaceService.deleteItem(UserService.getUserIdFromToken(token), workspaceId, itemId);
+	}
+
+	@PutMapping("/workspace/item")
+	public void moveItem(@RequestHeader(name = "token") String token, @RequestBody Map<String, String> req) {
+		WorkspaceService.moveItem(UserService.getUserIdFromToken(token), Long.parseLong(req.get("workspaceId")), Long.parseLong(req.get("itemId")), Long.parseLong(req.get("folderId")));
+	}
 	
 }

@@ -45,5 +45,18 @@ public class Folder extends Item {
         return null;
     }
 
+    @Override
+    public Folder findFolder(long id) {
+        for (Item item : items) {
+            if (item.getId() == id) {
+                return this;
+            }
+            Folder found = item.findFolder(id);
+            if (found != null) {
+                return found;
+            }
+        }
+        return null;
+    }
     
 }

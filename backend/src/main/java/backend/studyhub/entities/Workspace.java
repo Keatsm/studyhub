@@ -1,17 +1,17 @@
 package backend.studyhub.entities;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import backend.studyhub.entities.items.Folder;
 import backend.studyhub.entities.items.Item;
 
 public class Workspace extends Entity {
 
     private Set<User> users = new HashSet<User>();
     private Set<User> admins = new HashSet<User>();
-    private List<Item> items = new ArrayList<Item>();
+    private Folder items = new Folder(getName());
 
     private String description;
 
@@ -57,26 +57,28 @@ public class Workspace extends Entity {
         admins.remove(user);
     }
 
+    public long getRootFolderId() {
+        return items.getId();
+    }
+
     public List<Item> getItems() {
-        return items;
+        return items.getItems();
     }
 
     public void addItem(Item item) {
-        items.add(item);
+        items.addItem(item);
     }
 
     public void removeItem(Item item) {
-        items.remove(item);
+        items.removeItem(item);
     }
 
     public Item findItem(long id) {
-        for (Item item : items) {
-            Item found = item.findItem(id);
-            if (found != null) {
-                return found;
-            }
-        }
-        return null;
+        return items.findItem(id);
+    }
+
+    public Folder findFolder(long id) {
+        return items.findFolder(id);
     }
 
     public String getDescription() {

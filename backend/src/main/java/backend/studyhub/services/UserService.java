@@ -69,9 +69,13 @@ public class UserService {
         tokenToUserId.remove(token);
     }
 
-    static public User getUser(long id) {
+    static public User getUser(long id) throws HttpBadRequestException {
         DataStore dataStore = DataAccess.getInstance().getDataStore();
-        return dataStore.getUser(id);
+        User user = dataStore.getUser(id);
+        if (user == null) {
+            throw new HttpBadRequestException("User not found");
+        }
+        return user;
     }
 
 }

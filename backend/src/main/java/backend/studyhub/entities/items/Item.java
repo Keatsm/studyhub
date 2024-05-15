@@ -19,4 +19,8 @@ public abstract class Item extends Entity {
         }
         return null;
     }
+
+    public Folder findFolder(long id) {
+        return null;
+    }
 }
